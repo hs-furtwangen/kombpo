@@ -99,7 +99,7 @@ export class VisualPage {
         return observable;
     }
 
-asdasd
+
     initMetrics() {
         const socket = this.socket;
         const sendFunction = (cmd, ...args) => socket.emit(cmd, ...args);
@@ -115,7 +115,7 @@ asdasd
         .then((buffers) => {                                                    // Start the MetricSync after everything is loaded
             this.metricSync.start(sendFunction, receiveFunction).then(() => {
                 this.metricSync.addMetronome((measure, beat) => {
-					console.log('metro:', measure, beat);
+					// console.log('metro:', measure, beat);
                     this.sequenceArray.forEach(soundArray => {
                         for(let i: number = 0; i < soundArray.retrunBeatGrid().length; i++){
     						if(soundArray.retrunBeatGrid()[i][(measure % 4) * 8 + beat] > 0){

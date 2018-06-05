@@ -135,7 +135,7 @@ export class IdlePage {
         src.start(time);                                                        // Start Sound
 
         // Create a SoundWave everythime a new Sound is Playing
-        let soundWave = new SoundWave(this.soundWaves,0,length,this.canvasWidth/2,this.canvasHeight/2,1,this.ctx,this.canvasWidth,this.canvasHeight,this.ratio);
+        let soundWave = new SoundWave(0,length,this.canvasWidth/2,this.canvasHeight/2,1,this.ctx,this.canvasWidth,this.canvasHeight,this.ratio);
         this.soundWaves.push(soundWave);
     }
 

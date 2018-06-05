@@ -19,7 +19,7 @@ import { ServerConnectionService } from '../services/server-connection.service';
 })
 
 export class MyApp {
-	rootPage:any = VisualPage;
+	rootPage:any = EditPage;
 	// rootPage:any = ServerPage;
 
 	constructor(public server:ServerConnectionService, platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {

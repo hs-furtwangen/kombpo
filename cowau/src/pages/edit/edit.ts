@@ -81,6 +81,13 @@ export class EditPage {
 			}
 		}
 
+		//ONLY FOR DEMONSTRATION ON 06/06/18
+		if(globalVars.emojiID == null){
+			globalVars.emojiID = Math.floor(Math.random() * 12);
+			console.log("Emoji was null. Randomly generated: " + globalVars.emojiID) 
+		}
+		this.sound.setType(SoundType[SoundType[Math.floor(Math.random() * Object.keys(SoundType).length / 2)]]);
+
 		//Start Gesture Events
 		this.popover = new Popover(popoverCtrl);
 		
@@ -186,7 +193,7 @@ export class EditPage {
 	initMetrics() {
 		const loader = new AudioBufferLoader();
 		var soundsArrayString = [];
-
+		// console.log("init metrics");
 		soundsData[0].forEach(soundsData => {
 			soundsArrayString = soundsArrayString.concat(soundsData.pitches);   // New "big" Sound Array
 		});
@@ -198,7 +205,7 @@ export class EditPage {
 			const receiveFunction = (cmd, args) => this.socket.on(cmd, args);
 			this.metricSync.start(sendFunction, receiveFunction).then(() => {
 				this.metricSync.addMetronome((measure, beat) => {
-					console.log(measure, beat);
+					// console.log(measure, beat);
 					this.moveCursorTo((measure % 4) * 8 + beat);				// Cursor Movement
 					let beatGrid = this.sound.getBeatGrid();
 
@@ -282,13 +289,19 @@ export class EditPage {
 	// TODO: clean up for production but NOT before that. it's a good position to test functionality
 	clearSound(){
 		// this.sound.fillBeatGridAtRandom();
-		// this.sound.setId(1);
-		// this.socket.emit('new-sequence', this.sound);
+		this.sound.setId(1);
+		this.socket.emit('new-sequence', this.sound);
 		this.sound.clearBeatGrid();
 		this.clearSmallGrid();
 		// this.cloneFirstMeasure();
 		this.reloadGrid();
 		// console.log(this.sound.getBeatGrid());
+	}
+
+	switchSound(){
+		this.sound.nextType();
+		this.globalVars.currentSoundType = this.sound.getType();
+		this.popover.show(NewSoundPopoverPage, 2000);
 	}
 
 	//removes 

@@ -20,11 +20,11 @@
     },{
         "type": "SoundType.Marimba",
         "pitches": [
-            "assets/sounds/marimba-01.wav",
-            "assets/sounds/marimba-02.wav",
             "assets/sounds/marimba-03.wav",
             "assets/sounds/marimba-04.wav",
-            "assets/sounds/marimba-05.wav"
+            "assets/sounds/marimba-05.wav",
+            "assets/sounds/marimba-06.wav",
+            "assets/sounds/marimba-07.wav"
         ]
     }
 ]
