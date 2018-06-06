@@ -289,7 +289,7 @@ export class EditPage {
 	// TODO: clean up for production but NOT before that. it's a good position to test functionality
 	clearSound(){
 		// this.sound.fillBeatGridAtRandom();
-		this.sound.setId(1);
+		this.sound.setId(Math.floor(Math.random()*12));
 		this.socket.emit('new-sequence', this.sound);
 		this.sound.clearBeatGrid();
 		this.clearSmallGrid();
