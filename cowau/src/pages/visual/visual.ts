@@ -3,7 +3,6 @@ import { NavController, NavParams } from 'ionic-angular';
 
 //services
 import { MetricSync } from '../../services/metric-sync.service';
-// import { ServerConnectionService } from '../../services/server-connection.service';
 
 //classes
 import { SoundType } from '../../classes/sequence';
@@ -15,9 +14,7 @@ import { Socket } from 'ng-socket-io';
 import { Observable } from 'rxjs/Observable';
 
 // Audio Files & Stuff
-// import { AudioBufferLoader } from 'waves-loaders';
 import * as audio from 'waves-audio';
-// import * as soundsData from '../../assets/sounds/sounds.json';
 
 const audioContext = audio.audioContext;
 const audioScheduler = audio.getScheduler();
@@ -29,6 +26,7 @@ const audioScheduler = audio.getScheduler();
 
 export class VisualPage {
 
+<<<<<<< Updated upstream
 	callback: any;																//
 	cvs : any;                                                                  // Define the Canvas Element
 	ctx : any;                                                                  // Setup the Canvas to 2D
@@ -49,6 +47,28 @@ export class VisualPage {
 		private globalVars: Variables) {}
 
 	ionViewDidLoad() {
+=======
+	callback: any;																// Normal Callback Object
+    cvs : any;                                                                  // Define the Canvas Element
+    ctx : any;                                                                  // Setup the Canvas to 2D
+    ratio : number          = window.devicePixelRatio                           // Define the DPI of the Screen
+    canvasWidth : number    = window.innerWidth;                                // Hight of the Canvas
+    canvasHeight : number   = window.innerHeight;                               // Width of the Canvas
+    sequenceArray:Array<SequenceDraw>  = [];                                    // Array of all circles
+    soundLengths : number[];                                                    // Array of the length of a single sound
+    fps: number = 60;                                                           // FPS Setting for the draw Funktion
+    fpsInterval: number = 1000 / this.fps;                                      // Math to calc the interval ms with the set FPS
+    calc: any = 0;                                                              // Define a number to count all Draws Frames
+
+    constructor(
+        public navCtrl: NavController,
+        public navParams: NavParams,
+        private metricSync:MetricSync,
+        private socket:Socket,
+        private globalVars: Variables) {}
+
+    ionViewDidLoad() {
+>>>>>>> Stashed changes
 
 		// Connect Metric Sync service and
 		// observe the server if something happend
@@ -135,6 +155,7 @@ export class VisualPage {
 		this.metricSync.addMetronome(this.callback, 8, 8, 2);
 	}
 
+<<<<<<< Updated upstream
 	// Function that plays specific sounds when needed.
 	playSound(type:SoundType,pitch:number,length:number,amp:number) {
 		if(amp <= 0) return;
@@ -201,4 +222,64 @@ export class VisualPage {
 	public getDistance(x1, x2, y1, y2, r1, r2) {
 		return Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2) ) - (r2 + r1);
 	}
+=======
+    // Function that plays specific sounds when needed.
+    playSound(type:SoundType,pitch:number,length:number,amp:number) {
+        // Get Time from Server
+        const time = audioScheduler.currentTime;                                // Sync Time
+        const src = audioContext.createBufferSource();                          // Create Source
+        const gainC = audioContext.createGain();
+        const gainValue = this.decibelToLinear(this.globalVars.soundGains[type]) * amp;
+        gainC.gain.value = gainValue;
+
+        // Play Audio File
+        gainC.connect(audioContext.destination);                                         // Connect Autio Context
+        src.connect(gainC);
+        src.buffer = this.globalVars.buffers[type];                                     // Define witch sound the fucktion is playing
+        src.start(time, pitch * 3, Math.min(length, this.soundLengths[type]) * 0.25);   // Start Sound
+        const endTime = time + Math.min(length, this.soundLengths[type]) * 0.25;
+        gainC.gain.setValueAtTime(gainValue,endTime -0.05);
+        gainC.gain.linearRampToValueAtTime(0, endTime);
+    }
+
+    decibelToLinear(value: number){
+        return Math.pow(10, value/20);
+    }
+
+    // Function to update the Animation, this will draw a new Frame every 60 seconds
+    draw() {
+        setTimeout( () => {
+            // Request new Animation Frame to draw funny stuff
+            requestAnimationFrame(() => {this.draw()});
+
+            // DEBUG: Here you can enable a frame counter.
+            // this.calc++;
+            // console.log('Frame: ' + this.calc);
+            // console.log('______________________________________');
+
+            // Here is the code you like to run when a frame is drawn
+            this.ctx.clearRect(0,0,this.canvasWidth,this.canvasHeight);
+            this.sequenceArray.forEach(sequenceArray => {
+                sequenceArray.updateSound();
+            });
+
+        }, this.fpsInterval);
+    }
+
+    // Function to create a random int number
+    // with an min and max value
+    returnRandomValue(min,max) {
+        let random = Math.floor(Math.random() * (max-min + 1) + min );
+        if(random === 0){
+            return random = min;
+        } else {
+            return random;
+        }
+    }
+
+    // Function to detect distance between to objects
+    public getDistance(x1, x2, y1, y2, r1, r2) {
+        return Math.sqrt(Math.pow((x2-x1),2) + Math.pow((y2-y1),2) ) - (r2 + r1);
+    }
+>>>>>>> Stashed changes
 }

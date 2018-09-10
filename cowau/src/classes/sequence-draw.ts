@@ -48,9 +48,15 @@ export class SequenceDraw {
         this.lifeTimeValue  = 100;                                                  // The lifetime of the object 100-0
         this.soundWaves     = [];                                                   // The Soundwaves from this object
         this.emojiImg       = new Image();                                          // Create new object
+<<<<<<< Updated upstream
         this.ratio          = ratio;
 		this.beatGrid       = beatGrid;
         this.sequenceType   = sequenceType;
+=======
+        this.ratio          = ratio;                                                //
+        this.beatGrid       = beatGrid;                                             //
+        this.sequenceType   = sequenceType;                                         // 
+>>>>>>> Stashed changes
         this.velocity       = {
             x: this.returnRandomValue(-1,1),                                        // velocity in the x direction
             y: this.returnRandomValue(-1,1)                                         // velocity in the y direction
@@ -79,8 +85,13 @@ export class SequenceDraw {
     // movement and the drawing of the element
     public updateSound() : void {
         // Update the this.radius var to the new value
+<<<<<<< Updated upstream
         this.newRadius = Math.max(10,this.radius * Math.min(Math.max(0.1,this.lifeTimeValue/100 + 0.1),1));
         // this.mass = 300;
+=======
+        this.newRadius = this.radius * (this.lifeTimeValue/100);
+        this.mass = this.mass * (this.lifeTimeValue/100);
+>>>>>>> Stashed changes
         this.soundWaves.forEach((soundwave:SoundWave) => {
 			soundwave.updateSoundWave();
             if(soundwave.returnSoundWave() == 0) { this.soundWaves.splice(this.soundWaves.indexOf(soundwave),1); }
